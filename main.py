@@ -103,7 +103,7 @@ def contact():
         db.session.commit()
 
         # Sending Email
-        sendEmail(['banshajpaudel5010@gmail.com'],f"New message from {Name}:\n{msg}\n{phone_num}")
+        sendEmail(params['receivers],f"New message from {Name}:\n{msg}\n{phone_num}")
     return render_template('contact.html',params=params)
 
 @app.route("/post/<string:post_slug>", methods = ["GET"])
