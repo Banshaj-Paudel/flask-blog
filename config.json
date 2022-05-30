@@ -9,6 +9,7 @@
         "mail_port":"465",
         "mail_use_ssl":"True",
         "user_name":"<Enter your email here>",
+        "receivers":"[Enter the email of receivers]"
         "user_passwd":"<Enter your password here>",
         "no_of_posts":4,
         "admin_user":"admin",
