@@ -1,0 +1,5 @@
+flask
+werkzeug
+flask_mail
+datetime
+flask_sqlalchemy
