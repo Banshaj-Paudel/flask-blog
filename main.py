@@ -13,12 +13,10 @@ from flask_mail import Mail
 from datetime import datetime
 
 # Importing JSON module and opening it
-import json
 
 dotenv.load_dotenv()
 
-with open("config.json", "r") as c:
-    params = json.load(c)["params"]
+params = os.environ
 
 # Importing SQLAlchemy from flask_sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -47,6 +45,7 @@ mail = Mail(app)
 # Creating db object of SQLAlchemy class with the flask app object as the parameter
 db = SQLAlchemy(app)
 
+db.create_all()
 # Configuring the contacts database parameters with the ORM
 class Contacts(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
