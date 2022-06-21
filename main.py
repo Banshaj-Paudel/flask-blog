@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, session, redirect
 import os
 from werkzeug.utils import secure_filename
 import math
+import dotenv
 
 # Importing flask mail
 from flask_mail import Mail
@@ -14,6 +15,8 @@ from datetime import datetime
 # Importing JSON module and opening it
 import json
 
+dotenv.load_dotenv()
+
 with open("config.json", "r") as c:
     params = json.load(c)["params"]
 
@@ -22,11 +25,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Creating an instance of Flask Class
 app = Flask(__name__)
-app.secret_key = "something-secret"
-app.config["UPLOAD_FOLDER"] = params["location"]
+app.secret_key = os.environ["secret_key"]
+app.config["UPLOAD_FOLDER"] = "/uploads"
 
 # Setting up URI for the mysql database
-app.config["SQLALCHEMY_DATABASE_URI"] = params["local_uri"]
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["local_uri"]
 
 # Setting up SMTP
 def sendEmail(reciever, message):
@@ -134,7 +137,7 @@ def post_route(post_slug):
 
 @app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    if ("user" in session) and session["user"] == params["admin_user"]:
+    if ("user" in session) and session["user"] == os.environ.get("admin_user"):
         posts = Posts.query.all()
         return render_template("dashboard.html", params=params, posts=posts)
 
@@ -143,7 +146,9 @@ def dashboard():
         userName = request.form.get("username")
         passwd = request.form.get("password")
         # Validating the userName and password
-        if userName == params["admin_user"] and passwd == params["admin_passwd"]:
+        if userName == os.environ.get("admin_user") and passwd == os.environ.get(
+            "admin_password"
+        ):
             session["user"] = userName
             posts = Posts.query.all()
             return render_template("dashboard.html", params=params, posts=posts)
