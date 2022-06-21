@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: python main.py
+    depends_on:
+      - db
+  db:
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/apps/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_USER=mysql
+      - MYSQL_DATABASE=blog

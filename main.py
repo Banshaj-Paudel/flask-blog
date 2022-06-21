@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 import math
 
 # Importing flask mail
-from flask_mail import Mail, Message
+from flask_mail import Mail
 
 # Importing Date time
 from datetime import datetime
@@ -217,5 +217,5 @@ def delete(sno):
     return redirect("/dashboard")
 
 
-# Running server on localhost
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0")
